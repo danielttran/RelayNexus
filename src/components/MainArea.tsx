@@ -56,7 +56,7 @@ export default function MainArea() {
 
   const handleSend = () => {
     if (!inputVal.trim()) return;
-    
+
     const newMsg: ChatMessage = {
       id: Date.now().toString(),
       type: 'user',
@@ -116,13 +116,13 @@ export default function MainArea() {
       <div className="flex-1 overflow-y-auto p-8 space-y-8 relative z-10">
         {messages.map((msg) => (
           <div key={msg.id} className={`flex gap-4 max-w-3xl ${msg.type === 'user' ? 'ml-auto flex-row-reverse text-right' : ''}`}>
-            
+
             <div className={`w-10 h-10 rounded flex items-center justify-center shrink-0 ${msg.sender === 'OPERATOR' ? 'bg-military-olive' : 'bg-military-yellow'}`}>
               <span className={`material-symbols-outlined ${msg.sender === 'OPERATOR' ? 'text-slate-100' : 'text-background-dark font-bold'}`}>
                 {msg.sender === 'OPERATOR' ? 'person' : 'memory'}
               </span>
             </div>
-            
+
             <div className="space-y-2 w-full max-w-2xl">
               <div className={`flex items-center gap-2 ${msg.type === 'user' ? 'justify-end' : ''}`}>
                 {msg.type === 'user' ? (
@@ -169,15 +169,15 @@ export default function MainArea() {
               {/* Renders Executing Tool Call */}
               {msg.type === 'tool_call_executing' && (
                 <div className="border border-military-yellow/40 rounded-lg overflow-hidden bg-black w-full mt-2">
-                   <div className="bg-military-yellow/10 px-4 py-2 border-b border-military-yellow/40 flex items-center gap-2 text-military-yellow font-mono text-xs font-black uppercase tracking-widest">
-                      <span className="material-symbols-outlined text-sm animate-spin">sync</span> Executing Payload
-                   </div>
-                   <div className="p-4 font-mono text-xs bg-black h-48 overflow-y-auto space-y-1">
-                      {msg.logs?.map((log, i) => (
-                        <div key={i} className={log.isError ? 'text-military-red' : 'text-slate-400'}>{log.text}</div>
-                      ))}
-                      <div className="text-military-yellow animate-pulse">_</div>
-                   </div>
+                  <div className="bg-military-yellow/10 px-4 py-2 border-b border-military-yellow/40 flex items-center gap-2 text-military-yellow font-mono text-xs font-black uppercase tracking-widest">
+                    <span className="material-symbols-outlined text-sm animate-spin">sync</span> Executing Payload
+                  </div>
+                  <div className="p-4 font-mono text-xs bg-black h-48 overflow-y-auto space-y-1">
+                    {msg.logs?.map((log, i) => (
+                      <div key={i} className={log.isError ? 'text-military-red' : 'text-slate-400'}>{log.text}</div>
+                    ))}
+                    <div className="text-military-yellow animate-pulse">_</div>
+                  </div>
                 </div>
               )}
 
@@ -185,7 +185,7 @@ export default function MainArea() {
               {msg.type === 'tool_result' && (
                 <div className="border border-military-olive/40 rounded-lg overflow-hidden bg-black/50 w-full mt-2">
                   <div className="bg-military-olive/10 px-4 py-2 flex items-center gap-2 text-military-olive font-mono text-xs font-black uppercase tracking-widest">
-                      <span className="material-symbols-outlined text-sm">check_circle</span> Execution Completed
+                    <span className="material-symbols-outlined text-sm">check_circle</span> Execution Completed
                   </div>
                   <div className="p-4 text-xs text-slate-300 font-mono border-t border-military-olive/20 whitespace-pre-wrap">
                     {msg.content}
@@ -202,13 +202,13 @@ export default function MainArea() {
       <div className="p-6 bg-military-gray/80 border-t border-military-olive/30 relative z-20">
         <div className="flex gap-4 items-center max-w-5xl mx-auto">
           <div className="flex-1 relative">
-            <input 
+            <input
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              className="w-full bg-black border border-military-olive/50 rounded p-4 text-military-yellow font-mono placeholder:text-military-olive focus:ring-1 focus:ring-military-yellow focus:border-military-yellow uppercase" 
-              placeholder="ENTER COMMAND..." 
-              type="text" 
+              className="w-full bg-black border border-military-olive/50 rounded p-4 text-military-yellow font-mono placeholder:text-military-olive focus:ring-1 focus:ring-military-yellow focus:border-military-yellow uppercase"
+              placeholder="ENTER COMMAND..."
+              type="text"
             />
             <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-3 text-military-olive">
               <button className="material-symbols-outlined hover:text-military-yellow transition-colors">mic</button>
@@ -216,7 +216,7 @@ export default function MainArea() {
             </div>
           </div>
           <button onClick={handleSend} className="bg-military-yellow text-background-dark p-4 rounded font-black uppercase font-mono tracking-widest flex items-center gap-2 hover:brightness-110 transition-all">
-            Execute <span className="material-symbols-outlined">send</span>
+            <span className="material-symbols-outlined">send</span>
           </button>
         </div>
       </div>

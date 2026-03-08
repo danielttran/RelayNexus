@@ -19,7 +19,7 @@ export default function Header() {
       <div className="flex items-center gap-4">
         <div className="flex items-center bg-black/40 px-3 py-1 rounded border border-military-olive/30">
           <span className="material-symbols-outlined text-sm text-military-yellow mr-2">search</span>
-          <input className="bg-transparent border-none text-xs focus:ring-0 text-military-yellow placeholder:text-military-olive w-48 uppercase" placeholder="QUERY DATABASE..." type="text" />
+          <input className="bg-transparent border-none text-xs focus:ring-0 text-military-yellow placeholder:text-military-olive w-48 uppercase" placeholder="" type="text" />
         </div>
         <div className="flex gap-1">
           <button className="p-2 hover:bg-military-olive/20 text-slate-400"><span className="material-symbols-outlined">notifications</span></button>
