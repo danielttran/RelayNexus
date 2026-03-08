@@ -13,6 +13,8 @@ export default function Sidebar() {
   const [activeTicket, setActiveTicket] = useState<TicketContext | null>(null);
 
   useEffect(() => {
+    if (!('__TAURI_INTERNALS__' in window)) return;
+
     const unlisten = listen<TicketContext>('ticket-loaded', (event) => {
       setActiveTicket(event.payload);
     });

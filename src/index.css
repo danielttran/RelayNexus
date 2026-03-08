@@ -11,6 +11,10 @@
   --color-military-red: #dc2626;
   --color-military-gray: #1f2937;
   
+  --color-accent-yellow: #fbbf24;
+  --color-accent-red: #ef4444;
+  --color-panel-dark: #161e27;
+  
   --font-display: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }

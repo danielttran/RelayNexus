@@ -37,6 +37,8 @@ export default function MainArea() {
   }, [messages]);
 
   useEffect(() => {
+    if (!('__TAURI_INTERNALS__' in window)) return;
+
     const unlisten = listen<CommandOutputEvent>('command-output', (event) => {
       setMessages((prev) => {
         const newMsgs = [...prev];
@@ -95,6 +97,13 @@ export default function MainArea() {
   const handleApprove = async (msgId: string, command: string) => {
     // Transition to executing state
     setMessages(prev => prev.map(m => m.id === msgId ? { ...m, type: 'tool_call_executing', logs: [] } : m));
+
+    if (!('__TAURI_INTERNALS__' in window)) {
+        setTimeout(() => {
+            setMessages(prev => prev.map(m => m.id === msgId ? { ...m, type: 'tool_result', content: 'BROWSER MOCK: Command executed (Tauri IPC unavailable).' } : m));
+        }, 1500);
+        return;
+    }
 
     try {
       const result = await invoke<string>('execute_approved_command', { command });

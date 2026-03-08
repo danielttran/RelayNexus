@@ -1,4 +1,11 @@
-export default function Header() {
+import type { AppView } from '../App';
+
+interface HeaderProps {
+  currentView: AppView;
+  onViewChange: (view: AppView) => void;
+}
+
+export default function Header({ currentView, onViewChange }: HeaderProps) {
   return (
     <header className="flex items-center justify-between px-6 py-2 bg-military-gray border-b-2 border-military-olive/50 font-mono">
       <div className="flex items-center gap-6">
@@ -23,7 +30,12 @@ export default function Header() {
         </div>
         <div className="flex gap-1">
           <button className="p-2 hover:bg-military-olive/20 text-slate-400"><span className="material-symbols-outlined">notifications</span></button>
-          <button className="p-2 hover:bg-military-olive/20 text-slate-400"><span className="material-symbols-outlined">settings</span></button>
+          <button 
+            onClick={() => onViewChange(currentView === 'chat' ? 'settings' : 'chat')}
+            className={`p-2 hover:bg-military-olive/20 transition-colors ${currentView === 'settings' ? 'text-military-yellow' : 'text-slate-400'}`}
+          >
+            <span className="material-symbols-outlined">settings</span>
+          </button>
           <button className="ml-2 px-4 py-1 bg-military-red text-white text-xs font-black rounded hover:bg-red-700 uppercase">Emergency Stop</button>
         </div>
       </div>

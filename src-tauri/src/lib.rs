@@ -3,14 +3,34 @@ pub mod tickets;
 pub mod llm;
 pub mod execution;
 
-use settings::AppState;
+use settings::{AppState, AppSettings, save_config_file, get_config_path};
 use execution::execute_approved_command;
 
 #[tauri::command]
-fn update_settings(state: tauri::State<AppState>, redmine_url: String, redmine_api_key: String) -> Result<(), String> {
+fn get_config_path_str() -> String {
+    get_config_path().to_string_lossy().to_string()
+}
+
+#[tauri::command]
+fn load_settings(state: tauri::State<AppState>) -> Result<AppSettings, String> {
+    let settings = state.settings.lock().map_err(|_| "Failed to lock settings")?;
+    Ok(settings.clone())
+}
+
+#[tauri::command]
+fn save_settings(
+    state: tauri::State<AppState>, 
+    provider_id: String, 
+    redmine_url: String, 
+    redmine_api_key: String
+) -> Result<(), String> {
     let mut settings = state.settings.lock().map_err(|_| "Failed to lock settings")?;
+    settings.provider_id = provider_id;
     settings.redmine_url = redmine_url;
     settings.redmine_api_key = redmine_api_key;
+    
+    // Persist to disk
+    save_config_file(&settings)?;
     Ok(())
 }
 
@@ -18,7 +38,12 @@ fn update_settings(state: tauri::State<AppState>, redmine_url: String, redmine_a
 pub fn run() {
   tauri::Builder::default()
     .manage(AppState::new())
-    .invoke_handler(tauri::generate_handler![update_settings, execute_approved_command])
+    .invoke_handler(tauri::generate_handler![
+        load_settings, 
+        save_settings, 
+        execute_approved_command,
+        get_config_path_str
+    ])
     .setup(|app| {
       if cfg!(debug_assertions) {
         app.handle().plugin(
